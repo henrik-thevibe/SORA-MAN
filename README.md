@@ -5,7 +5,7 @@
 <h1 align="center">SORA-MAN · AI Arcade</h1>
 
 <p align="center">
-  <b>An AI satire of the 1980 arcade maze chase. Eat Nvidia-style chips, outrun Claude, Muse, Grok and Gemini, and survive Remix power-ups, an endless climb and a four-player battle royale. Built from an empty folder in about three days by directing AI coding agents.</b>
+  <b>An AI satire of the 1980 arcade maze chase. Eat Nvidia-style chips, outrun Claude, Muse, Grok and Gemini, and survive Remix power-ups, an endless climb and a four-player battle royale. Built from an empty folder in about 24 hours by directing AI coding agents.</b>
 </p>
 
 <p align="center">
@@ -84,7 +84,7 @@ A gamepad can take any seat. Multiplayer has only been tested with two players s
 
 > SORA-MAN is a tribute to the recently retired Sora. Opus 5.5 got very enthusiastic about writing its own chase logic, and it even directed the trailer.
 >
-> The whole game was built in about three days by directing AI coding agents. That meant writing requests, reviewing what came back, playtesting and sending critiques. Before every non-trivial change, the working tree was copied to a dated folder under `backups/`. There are 33 of these snapshots, and their names read like a commit log. The images below were captured by rebuilding the game from those snapshots and running each build headless in Chrome.
+> The whole game was built in about 24 hours by directing AI coding agents. That meant writing requests, reviewing what came back, playtesting and sending critiques. Before every non-trivial change, the working tree was copied to a dated folder under `backups/`. There are 33 of these snapshots, and their names read like a commit log. The images below were captured by rebuilding the game from those snapshots and running each build headless in Chrome.
 
 ### Who built what
 
