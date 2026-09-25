@@ -5,10 +5,12 @@
     "capture": "node capture/capture.mjs",
     "audio": "node audio/score.mjs",
     "render": "node render.mjs",
-    "encode": "node render.mjs --encode"
+    "encode": "node render.mjs --encode",
+    "hero-gifs": "node capture/hero-gifs.mjs"
   },
   "dependencies": {
-    "playwright": "^1.49.0",
-    "p5.brush": "^2.0.0"
+    "gifenc": "^1.0.3",
+    "p5.brush": "^2.0.0",
+    "playwright": "^1.49.0"
   }
 }

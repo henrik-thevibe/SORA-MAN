@@ -164,16 +164,17 @@ Next came the new AI cast: GPT Image 2.5 renders, translated into code by GPT-6 
   - **The hero**: a gold cloud with a star-shaped eye.
 
 <p align="center">
-  <img src="docs/media/cast-lineup.png" alt="The cast in HQ pixel art: the gold hero, Claude, Muse, Grok and Gemini" width="760"><br>
-  <sub><b>The cast in HQ.</b> 64 × 64 "hero" versions, from <code>trailer/src/hero-art.js</code>. It is a port of the game's mask painter that uses the same shapes, palettes and shading rules in the 32-pixel design space, sampled twice as finely.</sub>
+  <img src="docs/media/cast-lineup.gif" alt="The cast in HQ pixel art, animated: the gold hero chomping, Claude, Muse, Grok and Gemini wobbling and blinking" width="760"><br>
+  <sub><b>The cast in HQ.</b> 64 × 64 "hero" versions, from <code>trailer/src/hero-art.js</code>. It is a port of the game's mask painter that uses the same shapes, palettes and shading rules in the 32-pixel design space, sampled twice as finely. The GIFs are rendered by <code>trailer/capture/hero-gifs.mjs</code>.</sub>
 </p>
 
 <p align="center">
-  <img src="docs/media/cast-states.png" alt="Each ghost's normal, blink and frightened states" width="900"><br>
+  <img src="docs/media/cast-states.gif" alt="Each ghost's normal, blink and frightened states, animated" width="900"><br>
   <sub>Normal, blink and frightened states for each ghost. Frightened keeps each silhouette and recolours it.</sub>
 </p>
 
 <p align="center">
+  <img src="docs/media/cast-sora.gif" alt="The hero chomping" width="144">
   <img src="docs/media/cast-sora-frames.png" alt="The hero's four mouth frames" width="420"><br>
   <sub>The hero's mouth cycle. The star eye stays fixed in every frame.</sub>
 </p>
