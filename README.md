@@ -372,7 +372,7 @@ Short summaries follow. The full detail is in [`docs/TECHNICAL.md`](docs/TECHNIC
 
 | | |
 |---|---|
-| Development time | About 3 days |
+| Development time | About 24 hours |
 | Source snapshots | 33 |
 | Runtime JavaScript | About 8,600 lines across 19 files, no dependencies except a vendored p5.js for the backdrops |
 | Tests | 188 (Node's built-in runner), plus optional browser suites |
