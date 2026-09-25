@@ -180,5 +180,5 @@
       heroes.set(`${id}-left`, toCanvas(raster("ghost",{id,frame:0,dir:1})));
     }
   }
-  TR.hero = { build, get: (k) => heroes.get(k), N };
+  TR.hero = { build, raster, get: (k) => heroes.get(k), N };
 })();
