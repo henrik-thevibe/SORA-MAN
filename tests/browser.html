@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Astra-Man — browser, sprite & sound review</title>
+<style>
+  :root{color-scheme:dark;font:14px/1.5 ui-monospace,monospace;background:#0b1020;color:#edf0ff}
+  body{max-width:1120px;margin:24px auto;padding:0 20px}h1{font-size:22px}h2{font-size:16px;color:#fce174}
+  button{background:#253455;color:#fff;border:1px solid #5d73a7;padding:9px 12px;margin:3px;font:inherit;cursor:pointer}
+  button:disabled{opacity:.5}a{color:#a9ccff}pre{white-space:pre-wrap;padding:15px;background:#070b14}
+  .gallery-scroll{max-width:100%;overflow:auto;margin:12px 0}
+  #gallery,#animatedGallery{display:block;width:960px;max-width:none;height:auto;image-rendering:pixelated;background:#000}
+  select{font:inherit;background:#17243e;color:#fff;padding:6px;margin:4px;border:1px solid #5d73a7}
+  iframe{display:block;border:1px solid #465278;max-width:100%;width:720px;height:640px;margin:16px 0}
+  .good{color:#a7e8a9}.bad{color:#ff8995}
+</style>
+<h1>Astra-Man browser regression & sprite review</h1>
+<p>Local QA fixture. The game itself has no dependency on this page. Tests restore the previous saved score and sound preference.</p>
+<button id="run">Run browser checks</button><button id="runAudio">Run audio checks</button> <a href="../index.html">Open game</a>
+<pre id="results" role="status">Ready. Native DPR: <span id="dpr"></span></pre>
+<pre id="audioResults" role="status">Audio checks are ready.</pre>
+<h2>Every direction, frightened state, warning face, returning eyes and animation frame</h2>
+<div class="gallery-scroll"><canvas id="gallery" width="960" height="770" role="img" aria-label="All Astra-Man sprite frames at native size and two times enlargement"></canvas></div>
+<h2>Live animation at native size, 2x and 4x</h2>
+<label>State <select id="spriteState"><option value="CHASE">Normal</option><option value="FRIGHTENED">Frightened</option><option value="WARNING">Warning</option><option value="EATEN">Returning eyes</option><option value="BLINK">Blink</option></select></label>
+<label>Direction <select id="spriteDirection"><option value="3">Right</option><option value="0">Up</option><option value="1">Left</option><option value="2">Down</option></select></label>
+<button id="animateSprites" aria-pressed="false">Pause animation</button>
+<div class="gallery-scroll"><canvas id="animatedGallery" width="960" height="326" role="img" aria-label="Animated Astra-Man characters at three integer scales"></canvas></div>
+<h2>On-maze and game-state review</h2>
+<div id="scenes">
+  <button data-scene="READY">Ready board</button><button data-scene="FRIGHTENED">Frightened</button>
+  <button data-scene="WARNING">Warning</button><button data-scene="EATEN">Returning eyes</button>
+  <button data-scene="CAST">Adjacent cast</button><button data-scene="CORNERS">Corridor corners</button>
+  <button data-scene="HOUSE">House and gate</button>
+  <button data-scene="TUNNEL">Tunnel wrap</button><button data-scene="DYING">Death</button>
+  <button data-scene="LEVEL_CLEAR">Level clear</button><button data-scene="INTERMISSION">Intermission</button>
+  <button data-scene="GAME_OVER">Game over</button><button data-scene="ATTRACT">Title</button>
+</div>
+<h2>Sound review</h2>
+<p>Each button plays one bundled clip; loops run until Stop. The original arcade recordings the sounds are modelled on are under the reference players. Audio stops when this page loses focus. Headphones and a moderate system volume are recommended.</p>
+<div id="sounds"></div>
+<button id="sequence">Play state sequence</button><button id="stopSound">Stop sound</button>
+<label>Review volume <input id="reviewVolume" type="range" min="0" max="100" value="65"></label>
+<pre id="soundStatus" role="status">Ready for a listening check.</pre>
+<details><summary>Original reference recordings</summary><div id="references"></div></details>
+<iframe id="game" title="Game under test" src="../index.html" allow="autoplay; fullscreen" allowfullscreen></iframe>
+<script src="../engine.js"></script><script src="../character-art.js?v=astra-4"></script><script src="../item-art.js?v=items-1"></script><script src="../art.js?v=items-1"></script>
+<script src="sprite-review.js?v=items-1"></script>
+<script src="../sound-bank.js?v=ui-1"></script><script src="../audio.js?v=ui-1"></script>
+<script>
+  const iframe = document.getElementById('game'), output = document.getElementById('results');
+  document.getElementById('dpr').textContent = devicePixelRatio;
+  const frames = (count=3) => new Promise(resolve => {
+    function next(){if(--count<=0)resolve();else requestAnimationFrame(next);}requestAnimationFrame(next);
+  });
+  async function until(predicate){const deadline=performance.now()+7000;while(!predicate()){if(performance.now()>deadline)throw new Error('Timed out waiting for audio startup');await frames(1);}}
+  function load(){return new Promise(resolve=>{iframe.onload=()=>{iframe.scrollIntoView({block:'center'});iframe.contentWindow.AstraLoader?.skip();resolve();};iframe.src='../index.html?qa='+Date.now();});}
+  function key(w,key,repeat=false,target=w.document.getElementById('screen')){
+    return target.dispatchEvent(new w.KeyboardEvent('keydown',{key,code:key===' '?'Space':key,repeat,bubbles:true,cancelable:true}));
+  }
+  function check(condition,label){if(!condition)throw new Error(label);output.textContent+='PASS  '+label+'\n';}
+  function store(key,value){if(value===null)localStorage.removeItem(key);else localStorage.setItem(key,value);}
+  document.getElementById('run').onclick=async()=>{
+    const run=document.getElementById('run');run.disabled=true;output.className='';output.textContent='Native DPR: '+devicePixelRatio+'\n';
+    const scoreKey='pacman1980-high-score-v1',soundKey='pacman1980-muted-v1';
+    const savedScore=localStorage.getItem(scoreKey),savedSound=localStorage.getItem(soundKey);
+    try{
+      await load();let w=iframe.contentWindow,d=w.document,g=w.game;
+      // A user-initiated button invokes the real audio unlock and start wiring.
+      d.getElementById('play').click();
+      await until(()=>!w.pacmanDebug.snapshot().starting);
+      g.readyTimer=0;g.ghosts=[];await frames(4);
+      check(g.state==='PLAYING','start button reaches active play');
+      check(w.pacmanDebug.snapshot().audio.enabled,'audio context unlocks on start');
+      key(w,'p',true);check(g.state==='PLAYING','repeated pause key does not toggle');
+      key(w,'p');await frames();check(g.state==='PAUSED','one pause key pauses');
+      const paused=w.pacmanDebug.snapshot(),pixels=d.getElementById('screen').toDataURL();await frames(12);
+      check(w.pacmanDebug.snapshot().presentationTime===paused.presentationTime,'pause freezes the presentation clock');
+      check(d.getElementById('screen').toDataURL()===pixels,'paused artwork is pixel-identical across frames');
+      check(paused.audio.held&&paused.audio.sources===0,'pause silences and cancels all one-shot audio');
+      key(w,'Enter');await frames();check(g.state==='PLAYING','Enter explicitly resumes');
+      w.dispatchEvent(new w.Event('blur'));await frames();check(g.state==='PAUSED','focus loss automatically pauses active play');
+      w.dispatchEvent(new w.Event('focus'));await frames();check(g.state==='PAUSED','returning focus does not silently resume');
+      const button=d.getElementById('mute');button.focus();
+      check(key(w,'Enter',false,button)&&g.state==='PAUSED','keyboard handling leaves focused buttons usable');
+      d.getElementById('screen').focus();
+      const beforeMute=button.getAttribute('aria-pressed');key(w,'m',true);
+      check(button.getAttribute('aria-pressed')===beforeMute,'repeated mute key does not toggle');
+      key(w,'m');const muted=button.getAttribute('aria-pressed');
+      check(muted!==beforeMute&&localStorage.getItem(soundKey)===muted,'sound preference updates and persists');
+      key(w,'Enter');g.score=Math.max(12340,Number(savedScore||0)+10);const score=g.score;await frames(4);
+      check(Number(localStorage.getItem(scoreKey))===score,'score changes are saved');
+      // Freeze play so pellets eaten while the page reloads can't raise the score.
+      w.pacmanDebug.hold(true);await load();w=iframe.contentWindow;d=w.document;g=w.game;
+      check(g.highScore===score,'high score survives a full reload');
+      check(d.getElementById('screen').width===448&&d.getElementById('screen').height===576,'32px sprites use a 448 by 576 backing canvas');
+      check(w.PacmanArt.CAST.blinky.name==='CLAUDE'&&w.PacmanArt.CAST.clyde.name==='GEMINI','AI cast maps to original behavior IDs');
+      check(d.getElementById('mute').getAttribute('aria-pressed')===muted,'mute preference survives a full reload');
+      for(const [width,height] of [[720,640],[320,568],[900,440],[280,320]]){
+        iframe.style.width=width+'px';iframe.style.height=height+'px';await frames(5);
+        const r=d.getElementById('screen').getBoundingClientRect(),c=d.querySelector('.bezel-controls').getBoundingClientRect();
+        check(Math.abs(r.width/r.height-7/9)<.001,`${width}x${height}: canvas aspect ratio is preserved`);
+        check(r.left>=-1&&r.top>=-1&&r.right<=w.innerWidth+1&&c.bottom<=w.innerHeight+1,`${width}x${height}: board and controls fit`);
+        const scale=r.width/d.getElementById('screen').width*w.devicePixelRatio;
+        check(scale<1||Math.abs(scale-Math.round(scale))<.01,`${width}x${height}: whole-device-pixel scaling`);
+      }
+      output.className='good';output.textContent+='\nALL BROWSER CHECKS PASSED\n';
+    }catch(error){output.className='bad';output.textContent+='FAIL  '+error.message+'\n';console.error(error);}
+    finally{
+      store(scoreKey,savedScore);store(soundKey,savedSound);iframe.style.width='720px';iframe.style.height='640px';
+      await load();run.disabled=false;
+    }
+  };
+  // The review player is independent of the game and never changes saved preferences.
+  const reviewGame = new PacmanEngine.PacmanGame(0, PacmanSoundBank.timings);
+  const review = new ArcadeAudio(reviewGame), soundStatus = document.getElementById('soundStatus');
+  let sequenceTimers = [], reviewToken = 0;
+  function stopReview(){
+    reviewToken++;sequenceTimers.forEach(clearTimeout);sequenceTimers=[];
+    review.stopVoices();reviewGame.state='ATTRACT';
+    document.querySelectorAll('#references audio').forEach(player=>player.pause());
+    soundStatus.textContent='Stopped. Click a sound to play again.';
+  }
+  function reviewVolume(){if(review.master)review.master.gain.value=Number(document.getElementById('reviewVolume').value)/100;}
+  document.getElementById('reviewVolume').oninput=reviewVolume;
+  async function readyReview(){
+    stopReview();const token=reviewToken, unlocked=await review.unlock();
+    if(token!==reviewToken)return false;
+    if(!unlocked){soundStatus.textContent='Audio unavailable: '+review.error;return false;}
+    review.setHeld(false);reviewVolume();return true;
+  }
+  const labels={intro:'Opening tune',munchA:'Chomp A',munchB:'Chomp B',siren0:'Siren 1',siren1:'Siren 2',siren2:'Siren 3',siren3:'Siren 4',siren4:'Siren 5',frightened:'Frightened',returning:'Returning eyes',ghost:'Eat ghost',fruit:'Eat fruit',extraLife:'Extra life',death:'Death',intermission:'Intermission',powerUp:'Power-up',zap:'Zap',bootIntro:'Boot intro',titleSting:'Title sting',menuLoop:'Menu loop',uiMove:'Cursor',uiChange:'Change value',uiConfirm:'Confirm',uiBack:'Back',uiClick:'Button click',soundOn:'Sound on',soundOff:'Sound off',uiBuy:'Buy',uiEquip:'Equip',uiLoadoutAdd:'Loadout add',uiLoadoutRemove:'Loadout remove',uiDenied:'Denied',tally:'Results tally',levelUp:'Level up',achievement:'Achievement',gameOver:'Game over'};
+  for(const [clip,label] of Object.entries(labels)){
+    const button=document.createElement('button');button.textContent=label;button.dataset.clip=clip;
+    button.onclick=async()=>{if(!await readyReview())return;review.startVoice(clip,'review',{loop:PacmanSoundBank.clips[clip].loop});soundStatus.textContent=label+' — '+PacmanSoundBank.clips[clip].duration.toFixed(3)+' s'+(PacmanSoundBank.clips[clip].loop?' (looping)':'');};
+    document.getElementById('sounds').append(button);
+  }
+  const referenceNames=['start-music','eating','ghost-normal-move','ghost-spurt-move-1','ghost-spurt-move-2','ghost-spurt-move-3','ghost-spurt-move-4','ghost-turn-to-blue','ghost-return-to-home','eating-ghost','eating-fruit','extend','miss','coffee-break-music'];
+  for(const name of referenceNames){
+    const row=document.createElement('p'),label=document.createElement('span'),player=document.createElement('audio');
+    label.textContent=name+' ';player.controls=true;player.preload='none';player.src='../assets/audio/reference/'+name+'.mp3';player.volume=.65;
+    player.onplay=()=>{review.stopVoices();sequenceTimers.forEach(clearTimeout);sequenceTimers=[];document.querySelectorAll('#references audio').forEach(other=>{if(other!==player)other.pause();});};
+    row.append(label,player);document.getElementById('references').append(row);
+  }
+  document.getElementById('stopSound').onclick=stopReview;
+  document.getElementById('sequence').onclick=async()=>{
+    if(!await readyReview())return;
+    reviewGame.startGame();reviewGame.drainEvents();reviewGame.state='PLAYING';
+    const apply=label=>{review.update();soundStatus.textContent=label+' | '+review.snapshot().playingBed;};
+    apply('Normal play');
+    for(const [delay,change] of [
+      [2000,()=>{reviewGame.beginFrightened();reviewGame.drainEvents();apply('Power pellet: frightened');}],
+      [4000,()=>{reviewGame.ghosts[0].state='EATEN';review.play('ghostEaten');apply('Ghost eaten: returning eyes');}],
+      [6000,()=>{reviewGame.ghosts[1].state='EATEN';review.play('ghostEaten');apply('Two returning ghosts');}],
+      [8000,()=>{reviewGame.ghosts[0].state='HOUSE';apply('First home: returning continues');}],
+      [10000,()=>{reviewGame.ghosts[1].state='HOUSE';apply('Last home: frightened restored');}],
+      [12000,()=>{reviewGame.frightTimer=0;reviewGame.finishFrightened();reviewGame.drainEvents();apply('Power ends: normal siren');}],
+      [14000,()=>{stopReview();soundStatus.textContent='Sequence complete.';}]
+    ])sequenceTimers.push(setTimeout(change,delay));
+  };
+  window.addEventListener('blur',stopReview);
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)stopReview();});
+  document.getElementById('scenes').onclick=async event=>{
+    const scene=event.target.dataset.scene;if(!scene)return;
+    const w=iframe.contentWindow,g=w.game;g.startGame();g.drainEvents();g.tick=()=>{};g.state=scene;
+    if(['FRIGHTENED','WARNING','EATEN','CAST'].includes(scene)){
+      g.state='PLAYING';g.frightTimer=scene==='FRIGHTENED'?6:0;
+      g.ghosts.forEach((ghost,i)=>Object.assign(ghost,{x:9.5+i*2,y:5.5,dir:3,state:scene==='CAST'?'CHASE':scene}));
+    }
+    if(scene==='CORNERS'){
+      g.state='PLAYING';[[1.5,1.5,3],[26.5,1.5,2],[1.5,29.5,0],[26.5,29.5,1]].forEach(([x,y,dir],i)=>Object.assign(g.ghosts[i],{x,y,dir,state:'CHASE'}));
+    }
+    if(scene==='HOUSE'){g.state='PLAYING';Object.assign(g.ghosts[0],{x:13.5,y:12.5,state:'HOUSE'});}
+
+    if(scene==='TUNNEL'){g.state='PLAYING';Object.assign(g.pacman,{x:.1,y:14.5,dir:1});Object.assign(g.ghosts[0],{x:27.9,y:14.5,dir:3});}
+    if(scene==='DYING')g.deathTimer=.55;
+    if(scene==='INTERMISSION')g.intermissionTimer=1.5;
+    if(scene==='LEVEL_CLEAR')g.clearTimer=.5;
+    iframe.scrollIntoView({block:'center'});w.focus();
+    await frames();
+  };
+</script>
+<script src="audio-browser.js?v=ui-2"></script>
+</html>

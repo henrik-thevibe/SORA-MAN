@@ -1,0 +1,35 @@
+# Local development history and build output
+backups/
+outputs/
+
+# Concept renders and brand references (not published)
+astra-man rework/
+
+# Arcade recordings used only to measure pitch contours; they belong to their rights holders
+assets/audio/reference/
+
+# Third-party checkout (see scripts/AUDIO.md)
+tools/jfxr/
+
+# Trailer: art, footage, renders and dependencies (source and docs are tracked)
+trailer/assets/
+trailer/out/
+trailer/node_modules/
+
+# Launch drafts and posting notes
+docs/launch/
+
+# Local agent and editor state
+.workbuddy-ai/
+.claude/settings.local.json
+.vscode/
+.idea/
+
+# OS and tooling noise
+node_modules/
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log

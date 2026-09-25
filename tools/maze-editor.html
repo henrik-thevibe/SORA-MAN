@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Astra-Man Maze Editor</title>
+<link rel="stylesheet" href="../assets/fonts/crackman.css">
+<style>
+  :root { --bg: #0b0d18; --panel: #151a2c; --line: #2a3350; --ink: #e8ecf8; --dim: #8c96b8; --gold: #ffe52c; --bad: #ff6474; --warn: #ffb44d; --ok: #3ef06a; --accent: #3fc6ff; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.45 ui-monospace, SFMono-Regular, Consolas, monospace; }
+  header { display: flex; align-items: baseline; gap: 16px; padding: 14px 20px 6px; flex-wrap: wrap; }
+  h1 { margin: 0; font: 28px "AstraTitle", ui-monospace, monospace; color: var(--gold); letter-spacing: 1px; }
+  header p { margin: 0; color: var(--dim); }
+  main { display: flex; gap: 20px; padding: 10px 20px 24px; align-items: flex-start; flex-wrap: wrap; }
+  .board { position: relative; flex: 0 0 auto; }
+  canvas { display: block; image-rendering: pixelated; border: 1px solid var(--line); background: #000; cursor: crosshair; touch-action: none; width: min(560px, calc(100vw - 42px)); height: auto; }
+  .side { flex: 1 1 320px; min-width: 300px; max-width: 520px; display: grid; gap: 12px; }
+  section { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 12px; }
+  h2 { margin: 0 0 8px; font-size: 12px; letter-spacing: 1px; color: var(--dim); text-transform: uppercase; }
+  .brushes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  button, select, input[type=text] { font: inherit; color: var(--ink); background: #0f1322; border: 1px solid var(--line); border-radius: 6px; padding: 6px 8px; }
+  button { cursor: pointer; }
+  button:hover { border-color: var(--accent); }
+  button[aria-pressed=true] { background: #23305a; border-color: var(--accent); color: #fff; }
+  button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .row > * { flex: 0 0 auto; }
+  label { color: var(--dim); }
+  input[type=text] { flex: 1 1 120px; }
+  input[type=color] { width: 40px; height: 32px; padding: 0; border: 1px solid var(--line); background: none; }
+  kbd { color: var(--dim); font-size: 11px; }
+  ul { margin: 0; padding-left: 18px; max-height: 180px; overflow: auto; }
+  li.error { color: var(--bad); } li.warning { color: var(--warn); } li.ok { color: var(--ok); list-style: none; margin-left: -18px; }
+  textarea { width: 100%; min-height: 90px; font: 12px/1.3 ui-monospace, monospace; color: var(--ink); background: #0f1322; border: 1px solid var(--line); border-radius: 6px; padding: 8px; resize: vertical; }
+  .hint { color: var(--dim); font-size: 12px; margin: 6px 0 0; }
+  #status { min-height: 1.4em; color: var(--accent); }
+</style>
+</head>
+<body>
+<header>
+  <h1>MAZE EDITOR</h1>
+  <p>Draw a 28 × 31 maze, check it against the arcade rules, then play it or share it as a link.</p>
+</header>
+<main>
+  <div class="board">
+    <canvas id="grid" width="448" height="496" aria-label="Maze grid. Paint tiles with the mouse."></canvas>
+  </div>
+  <div class="side">
+    <section>
+      <h2>Brush</h2>
+      <div class="brushes" id="brushes"></div>
+      <div class="row" style="margin-top:8px">
+        <label><input type="checkbox" id="mirror" checked> Mirror left and right</label>
+        <label><input type="checkbox" id="preview"> Game preview</label>
+      </div>
+      <p class="hint">Left drag paints, right drag clears to empty corridor. Carve corridors with dots through wall. <kbd>1–6</kbd> brushes, <kbd>M</kbd> mirror, <kbd>V</kbd> preview, <kbd>Ctrl+Z</kbd> undo.</p>
+    </section>
+    <section>
+      <h2>Maze</h2>
+      <div class="row">
+        <label for="name">Name</label><input type="text" id="name" maxlength="16" value="MY MAZE">
+        <label for="wall">Walls</label><input type="color" id="wall" value="#ff6fb1">
+      </div>
+      <div class="row" style="margin-top:8px">
+        <select id="start" aria-label="Start from a maze"></select>
+        <button id="load">Load</button>
+        <button id="clear">Clear to walls</button>
+        <button id="undo">Undo</button>
+      </div>
+    </section>
+    <section>
+      <h2>Endless generator</h2>
+      <div class="row">
+        <select id="biome" aria-label="Biome"></select>
+        <label for="seed">Seed</label><input type="text" id="seed" value="1" inputmode="numeric" style="flex:0 1 90px">
+        <button id="generate">Generate</button>
+        <button id="reroll">Next seed</button>
+      </div>
+      <p class="hint">Builds a strip with the same generator ENDLESS uses as you climb, in the style of one of the bundled mazes. Strips have no ghost house; stamp one (brush 5) to turn one into an arcade maze.</p>
+    </section>
+    <section>
+      <h2>Checks</h2>
+      <ul id="report"></ul>
+    </section>
+    <section>
+      <h2>Play and share</h2>
+      <div class="row">
+        <button id="play">Play in the game</button>
+        <button id="copyLink">Copy share link</button>
+        <button id="copyJs">Copy for maps.js</button>
+      </div>
+      <p id="status" role="status"></p>
+      <textarea id="code" aria-label="Share code. Paste a code or rows here and press Import." spellcheck="false"></textarea>
+      <div class="row"><button id="import">Import code or rows</button></div>
+    </section>
+  </div>
+</main>
+<script src="../maps.js"></script>
+<script src="../engine.js"></script>
+<script src="../mazegen.js"></script>
+<script src="../character-art.js"></script>
+<script src="../item-art.js"></script>
+<script src="../art.js"></script>
+<script>
+(function () {
+  "use strict";
+  const E = window.PacmanEngine, Art = window.PacmanArt, Maps = window.AstraMaps, Gen = window.AstraMazeGen;
+  const { COLS, ROWS } = E, T = 16, DRAFT_KEY = "astra-maze-editor-draft-v1";
+  const canvas = document.getElementById("grid"), ctx = canvas.getContext("2d");
+  const $ = id => document.getElementById(id);
+  const BRUSHES = [
+    { id: "#", label: "Wall", key: "1" }, { id: ".", label: "Dot", key: "2" }, { id: "P", label: "Power", key: "3" },
+    { id: " ", label: "Empty", key: "4" }, { id: "house", label: "Ghost house", key: "5" }, { id: "start", label: "Start", key: "6" },
+  ];
+  const COLORS = { "#": "#24305a", ".": "#0a0a12", P: "#0a0a12", " ": "#000", "-": "#ffb8de", S: "#3a3000" };
+  let grid, brush = "#", undo = [], painting = null, lastReport = null;
+
+  const normalize = rows => rows.map(row => row.replace(/[^.P \-S]/g, "#"));
+  const rowsOf = () => grid.map(row => row.join(""));
+  function setRows(rows, remember = true) {
+    if (remember && grid) undo.push(rowsOf());
+    if (undo.length > 200) undo.shift();
+    grid = normalize(rows).map(row => row.split(""));
+    refresh();
+  }
+  function blankRows() {
+    const rows = Array.from({ length: ROWS }, () => "#".repeat(COLS).split(""));
+    stamp(rows, "house", 10, 12); stamp(rows, "start", 13, 23);
+    return rows.map(row => row.join(""));
+  }
+  // House: an 8x5 pen with a two-tile gate, ringed by empty corridor.
+  function stamp(rows, kind, x, y) {
+    if (kind === "house") {
+      x = Math.max(1, Math.min(COLS - 9, x)); y = Math.max(2, Math.min(ROWS - 7, y));
+      for (const row of rows) for (let i = 0; i < COLS; i++) if (row[i] === "-") row[i] = "#";
+      for (let yy = y - 1; yy <= y + 5; yy++) for (let xx = x - 1; xx <= x + 8; xx++) {
+        const edge = yy === y - 1 || yy === y + 5 || xx === x - 1 || xx === x + 8;
+        if (edge) rows[yy][xx] = " ";
+        else rows[yy][xx] = (yy > y && yy < y + 4 && xx > x && xx < x + 7) ? " " : "#";
+      }
+      rows[y][x + 3] = rows[y][x + 4] = "-";
+    } else {
+      x = Math.max(1, Math.min(COLS - 3, x));
+      for (const row of rows) for (let i = 0; i < COLS; i++) if (row[i] === "S") row[i] = " ";
+      rows[y][x] = rows[y][x + 1] = "S";
+    }
+  }
+  function paintAt(x, y, tile) {
+    if (x < 0 || x >= COLS || y < 0 || y >= ROWS) return;
+    if (tile === "house" || tile === "start") { stamp(grid, tile, tile === "house" ? x - 3 : x, y); return; }
+    const put = (px) => { if (grid[y][px] !== "-" && grid[y][px] !== "S") grid[y][px] = tile; };
+    put(x);
+    if ($("mirror").checked) put(COLS - 1 - x);
+  }
+
+  // Mazes without a gate are checked as ENDLESS strips: open field, but still no dead ends,
+  // open 2x2 areas or unreachable corridors.
+  function stripReport(rows) {
+    let spawn = null;
+    rows.forEach((row, y) => { const x = row.indexOf("S") >= 0 ? row.indexOf("S") : row.indexOf("  ", 1); if (x > 0 && !spawn) spawn = [x + 1, y + 0.5]; });
+    const result = E.analyzeMap({ id: "strip", name: $("name").value, wall: $("wall").value, rows, houseless: true, spawn: spawn || [14, ROWS - 1.5] });
+    const errors = [...result.errors], warnings = ["No ghost house: checked as an ENDLESS strip. Stamp a house (brush 5) to play it as an arcade maze."];
+    const tunnel = y => rows[y][0] !== "#" && rows[y][COLS - 1] !== "#";
+    const open = (x, y) => {
+      if (y < 0 || y >= ROWS) return false;
+      if (x < 0 || x >= COLS) { if (!tunnel(y)) return false; x = (x + COLS) % COLS; }
+      return rows[y][x] !== "#";
+    };
+    const steps = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+    let first = null, count = 0, blocks = 0;
+    for (let y = 0; y < ROWS; y++) for (let x = 0; x < COLS; x++) {
+      if (!open(x, y)) continue;
+      count++; first = first || [x, y];
+      if (steps.filter(([dx, dy]) => open(x + dx, y + dy)).length < 2) errors.push(`Dead end at ${x},${y}.`);
+      if (x + 1 < COLS && open(x + 1, y) && open(x, y + 1) && open(x + 1, y + 1)) blocks++;
+    }
+    if (blocks) warnings.push(`${blocks} open 2x2 area(s); arcade corridors are one tile wide.`);
+    if (first) {
+      const seen = new Set([first.join()]), queue = [first];
+      for (let i = 0; i < queue.length; i++) for (const [dx, dy] of steps) {
+        let [x, y] = [queue[i][0] + dx, queue[i][1] + dy];
+        if (!open(x, y)) continue;
+        x = (x + COLS) % COLS;
+        if (!seen.has(x + "," + y)) { seen.add(x + "," + y); queue.push([x, y]); }
+      }
+      if (seen.size < count) errors.push(`${count - seen.size} corridor tile(s) are cut off from the rest.`);
+    }
+    return { errors, warnings, map: errors.length ? null : result.map, strip: true };
+  }
+  function refresh() {
+    const rows = rowsOf();
+    const strip = !rows.some(row => row.includes("-"));
+    lastReport = strip ? stripReport(rows) : E.analyzeMap({ id: "custom", name: $("name").value, wall: $("wall").value, rows });
+    draw(rows); report(); save();
+  }
+  function draw(rows) {
+    ctx.imageSmoothingEnabled = false;
+    ctx.fillStyle = "#000"; ctx.fillRect(0, 0, canvas.width, canvas.height);
+    const map = lastReport.map;
+    if ($("preview").checked && map) {
+      ctx.drawImage(Art.mazeLayer(false, map.wall, map), 0, 0, COLS * T, ROWS * T);
+      for (let y = 0; y < ROWS; y++) for (let x = 0; x < COLS; x++) {
+        const v = map.pellets[y * COLS + x];
+        if (v) ctx.drawImage(Art.sprite(v === 2 ? "gpu" : "chip"), x * T - T / 2, y * T - T / 2, T * 2, T * 2);
+      }
+      ["blinky", "pinky", "inky", "clyde"].forEach((id, i) => {
+        if (!map.ghostSpawns[i]) return;
+        const [gx, gy] = map.ghostSpawns[i];
+        ctx.drawImage(Art.sprite("ghost", { id }), gx * T - T, gy * T - T, T * 2, T * 2);
+      });
+      ctx.drawImage(Art.sprite("pacman", { frame: 2, direction: 1 }), map.spawn[0] * T - T, map.spawn[1] * T - T, T * 2, T * 2);
+      return;
+    }
+    for (let y = 0; y < ROWS; y++) for (let x = 0; x < COLS; x++) {
+      const tile = rows[y][x];
+      ctx.fillStyle = COLORS[tile] || COLORS["#"];
+      ctx.fillRect(x * T, y * T, T, T);
+      if (tile === ".") { ctx.fillStyle = "#ffb897"; ctx.fillRect(x * T + 6, y * T + 6, 4, 4); }
+      if (tile === "P") { ctx.fillStyle = "#ffd1a0"; ctx.beginPath(); ctx.arc(x * T + 8, y * T + 8, 5, 0, Math.PI * 2); ctx.fill(); }
+      if (tile === "S") { ctx.fillStyle = "#ffe52c"; ctx.fillRect(x * T + 4, y * T + 4, 8, 8); }
+    }
+    ctx.strokeStyle = "#ffffff10"; ctx.lineWidth = 1;
+    for (let x = 0; x <= COLS; x++) { ctx.beginPath(); ctx.moveTo(x * T + 0.5, 0); ctx.lineTo(x * T + 0.5, ROWS * T); ctx.stroke(); }
+    for (let y = 0; y <= ROWS; y++) { ctx.beginPath(); ctx.moveTo(0, y * T + 0.5); ctx.lineTo(COLS * T, y * T + 0.5); ctx.stroke(); }
+    ctx.strokeStyle = "#3fc6ff55"; ctx.beginPath(); ctx.moveTo(COLS * T / 2, 0); ctx.lineTo(COLS * T / 2, ROWS * T); ctx.stroke();
+    // Outline every tile a message names.
+    ctx.strokeStyle = "#ff6474"; ctx.lineWidth = 2;
+    for (const message of lastReport.errors) for (const [, x, y] of message.matchAll(/(\d+),(\d+)/g)) ctx.strokeRect(x * T + 1, y * T + 1, T - 2, T - 2);
+  }
+  function report() {
+    const list = $("report"); list.textContent = "";
+    const add = (text, kind) => { const li = document.createElement("li"); li.className = kind; li.textContent = text; list.append(li); };
+    const { errors, warnings, map } = lastReport;
+    const tunnels = map ? `${map.tunnelRows.size} tunnel${map.tunnelRows.size === 1 ? "" : "s"}` : "";
+    if (map) add(lastReport.strip ? `Sound strip: ${map.total} pellets, ${tunnels}.` : `Playable: ${map.total} pellets, ${tunnels}.`, "ok");
+    errors.slice(0, 40).forEach(e => add(e, "error"));
+    if (errors.length > 40) add(`…and ${errors.length - 40} more.`, "error");
+    warnings.forEach(w => add(w, "warning"));
+    for (const id of ["play", "copyLink", "copyJs"]) $(id).disabled = !map || lastReport.strip;
+  }
+  function save() {
+    try { localStorage.setItem(DRAFT_KEY, JSON.stringify({ rows: rowsOf(), name: $("name").value, wall: $("wall").value })); } catch (_) { /* Drafts are optional. */ }
+  }
+  const shareUrl = () => new URL(`../index.html#map=${Maps.encodeRows(rowsOf())}&name=${encodeURIComponent($("name").value || "CUSTOM")}&wall=${$("wall").value.slice(1)}`, location.href).href;
+  function status(text) { $("status").textContent = text; }
+  async function copy(text, done) {
+    try { await navigator.clipboard.writeText(text); status(done); }
+    catch (_) { $("code").value = text; status("Copying is blocked here; the text is in the box below."); }
+  }
+
+  // Brushes and options.
+  for (const b of BRUSHES) {
+    const button = document.createElement("button");
+    button.textContent = `${b.key} ${b.label}`; button.dataset.brush = b.id;
+    button.addEventListener("click", () => selectBrush(b.id));
+    $("brushes").append(button);
+  }
+  function selectBrush(id) {
+    brush = id;
+    for (const button of $("brushes").children) button.setAttribute("aria-pressed", String(button.dataset.brush === id));
+  }
+  const start = $("start");
+  for (const map of E.MAPS) start.add(new Option(`Start from ${map.name}`, map.id));
+  start.add(new Option("Start from a blank maze", "blank"));
+  $("load").addEventListener("click", () => {
+    const map = E.findMap(start.value);
+    setRows(map ? map.rows : blankRows());
+    if (map) { $("name").value = map.id === "classic" ? "MY MAZE" : map.name; if (map.wall) $("wall").value = map.wall; }
+    status("Loaded.");
+  });
+  $("clear").addEventListener("click", () => setRows(blankRows()));
+  for (const biome of Gen.BIOMES) $("biome").add(new Option(`Style: ${(E.findMap(biome.id) || { name: biome.id }).name}`, biome.id));
+  // A small seeded generator, so a seed always gives the same strip.
+  function seeded(text) {
+    let s = 0;
+    for (const ch of String(text)) s = (Math.imul(s, 31) + ch.charCodeAt(0)) >>> 0;
+    s = s || 1;
+    return () => ((s = (Math.imul(s, 1664525) + 1013904223) >>> 0) / 4294967296);
+  }
+  function generate() {
+    const rows = Gen.generatePreview(seeded($("seed").value), $("biome").value, ROWS).map(row => row.replace(/[GU]/g, "."));
+    const map = E.findMap($("biome").value);
+    $("wall").value = (map && map.wall) || "#284bff";
+    setRows(rows);
+    status(`Generated a ${map ? map.name : $("biome").value} strip from seed ${$("seed").value}.`);
+  }
+  $("generate").addEventListener("click", generate);
+  $("reroll").addEventListener("click", () => { $("seed").value = String((parseInt($("seed").value, 10) || 0) + 1); generate(); });
+  $("undo").addEventListener("click", () => { if (undo.length) setRows(undo.pop(), false); });
+  for (const id of ["mirror", "preview"]) $(id).addEventListener("change", refresh);
+  for (const id of ["name", "wall"]) $(id).addEventListener("input", refresh);
+  $("play").addEventListener("click", () => window.open(shareUrl(), "_blank"));
+  $("copyLink").addEventListener("click", () => copy(shareUrl(), "Share link copied."));
+  $("copyJs").addEventListener("click", () => {
+    const id = ($("name").value || "custom").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "custom";
+    const text = `    Object.freeze({\n      id: "${id}",\n      name: "${($("name").value || "CUSTOM").toUpperCase()}",\n      wall: "${$("wall").value}",\n      about: "",\n      rows: Object.freeze([\n${rowsOf().map(r => `        "${r}",`).join("\n")}\n      ]),\n    }),`;
+    copy(text, "Copied. Paste it into the MAPS list in maps.js.");
+  });
+  $("import").addEventListener("click", () => {
+    const text = $("code").value.trim();
+    const code = (/map=([^&\s]+)/.exec(text) || [])[1] || text;
+    let rows = Maps.decodeRows(code);
+    if (!rows) { const found = text.match(/"([^"\n]{28})"/g); if (found && found.length === ROWS) rows = found.map(s => s.slice(1, -1)); }
+    if (!rows) { status("That is not a share code, link or list of 31 rows."); return; }
+    setRows(rows); status("Imported.");
+  });
+
+  // Painting.
+  function tileFrom(event) {
+    const rect = canvas.getBoundingClientRect();
+    return [Math.floor((event.clientX - rect.left) / rect.width * COLS), Math.floor((event.clientY - rect.top) / rect.height * ROWS)];
+  }
+  canvas.addEventListener("contextmenu", event => event.preventDefault());
+  canvas.addEventListener("pointerdown", event => {
+    if ($("preview").checked) { $("preview").checked = false; refresh(); }
+    undo.push(rowsOf());
+    painting = event.button === 2 ? " " : brush;
+    canvas.setPointerCapture(event.pointerId);
+    paintAt(...tileFrom(event), painting); refresh();
+    if (painting === "house" || painting === "start") painting = null;
+  });
+  canvas.addEventListener("pointermove", event => { if (painting) { paintAt(...tileFrom(event), painting); refresh(); } });
+  const stop = () => { painting = null; };
+  canvas.addEventListener("pointerup", stop); canvas.addEventListener("pointercancel", stop);
+  window.addEventListener("keydown", event => {
+    if (event.target.closest("input, textarea, select")) return;
+    const b = BRUSHES.find(item => item.key === event.key);
+    if (b) selectBrush(b.id);
+    else if (event.key.toLowerCase() === "m") { $("mirror").checked = !$("mirror").checked; }
+    else if (event.key.toLowerCase() === "v") { $("preview").checked = !$("preview").checked; refresh(); }
+    else if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "z") { event.preventDefault(); $("undo").click(); }
+  });
+
+  let draft = null;
+  try { draft = JSON.parse(localStorage.getItem(DRAFT_KEY) || "null"); } catch (_) { draft = null; }
+  if (draft && Array.isArray(draft.rows) && draft.rows.length === ROWS) {
+    $("name").value = draft.name || "MY MAZE"; if (/^#[0-9a-f]{6}$/i.test(draft.wall)) $("wall").value = draft.wall;
+    setRows(draft.rows, false);
+  } else setRows(E.findMap("neural").rows, false);
+  selectBrush("#");
+})();
+</script>
+</body>
+</html>

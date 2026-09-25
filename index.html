@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#06070e">
+  <meta name="description" content="Sora takes on Claude, Muse, Grok and Gemini in a classic maze, solo or with up to four players in local multiplayer on one desktop (keyboard and gamepads). An unofficial fan tribute to Sora (2024–2026); not affiliated with OpenAI.">
+  <title>SORA-MAN · AI Arcade</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css?v=release-1">
+  <link rel="stylesheet" href="assets/fonts/crackman.css">
+</head>
+<body>
+  <div id="loader" class="loader" role="status" aria-label="Sora-Man boot screen: press any key or tap to start">
+    <div class="loader-cover left" aria-hidden="true"></div>
+    <div class="loader-cover right" aria-hidden="true"></div>
+    <div class="loader-panel">
+      <div class="loader-title" aria-hidden="true">SORA-MAN</div>
+      <canvas id="loader-bar" class="loader-bar" width="448" height="48" aria-hidden="true"></canvas>
+      <div class="loader-label" id="loader-label">PRESS ANY KEY</div>
+      <div class="loader-hint" aria-hidden="true">DENOISING</div>
+      <div class="loader-dedication">FOR SORA · 2024.02.15 – 2026.09.24</div>
+      <div class="loader-disclaimer"><span>UNOFFICIAL FAN TRIBUTE ·</span> <span>NOT AFFILIATED WITH OPENAI</span></div>
+    </div>
+  </div>
+  <script src="boot-timeline.js?v=2"></script>
+  <script src="loader.js?v=release-1"></script>
+  <main class="machine" aria-label="Sora-Man arcade game">
+    <div class="arcade-frame">
+      <div class="cabinet" data-layout="strip">
+        <div class="pad" id="pad" aria-hidden="true"></div>
+        <div class="screen-frame">
+          <canvas id="screen" width="448" height="576" tabindex="0" role="img" aria-label="Sora-Man arcade screen. Enter to start or resume; arrows or WASD to move; P to pause. Local multiplayer for up to four players on one desktop: each player joins in the lobby with their own keys or gamepad." aria-describedby="instructions status">
+            Sora-Man arcade game. Use arrows or WASD to move, Enter to start, and P to pause.
+          </canvas>
+        </div>
+        <div class="actions" role="group" aria-label="Game buttons">
+          <button id="action" type="button" aria-label="Use skill" title="Skill">SKILL</button>
+          <button id="pause" type="button" aria-label="Pause game" aria-pressed="false" title="Pause (P)">PAUSE</button>
+          <button id="play" type="button" aria-label="Start game" title="Start (Enter)">START</button>
+        </div>
+        <div class="bezel-controls" aria-label="Arcade controls">
+          <span id="level" aria-label="Current level">LVL 01</span>
+          <button id="menu" type="button" aria-label="Back to menu" title="Menu (Backspace)">MENU</button>
+          <button id="mute" type="button" aria-label="Mute sound" aria-pressed="false">SOUND ON</button>
+          <button id="fullscreen" type="button" aria-label="Toggle fullscreen" aria-pressed="false" title="Fullscreen (F)">FULLSCREEN</button>
+          <button id="touch-toggle" type="button" aria-label="Show touch controls" aria-pressed="false" title="Touch controls">SHOW PAD</button>
+          <button id="graphics" type="button" aria-label="Graphics settings" aria-haspopup="dialog" aria-expanded="false" title="Graphics (V visuals, R motion)">GRAPHICS</button>
+        <button id="backdrop" type="button" aria-label="Choose backdrop" aria-haspopup="dialog" aria-expanded="false" title="Backdrop (B)">BACKDROP</button>
+        </div>
+        <p class="controls-hint sr-only" id="instructions"><span>ARROWS / WASD <b>MOVE</b></span><span>P <b>PAUSE</b></span><span>M <b>SOUND</b></span><span>F <b>FULLSCREEN</b></span></p>
+      </div>
+    </div>
+    <p id="status" class="sr-only" role="status" aria-live="polite">Press Enter to start.</p>
+  </main>
+  <script src="maps.js?v=juice-1"></script>
+  <script src="engine.js?v=release-2"></script>
+  <script src="mazegen.js?v=gen-2"></script>
+  <script src="modes.js?v=release-1"></script>
+  <script src="meta.js?v=release-2"></script>
+  <script src="character-art.js?v=sora-1"></script>
+  <script src="item-art.js?v=release-2"></script>
+  <script src="art.js?v=release-1"></script>
+  <script src="sound-bank.js?v=release-1"></script>
+  <script src="audio.js?v=release-1"></script>
+  <script src="vendor/p5.min.js"></script>
+  <script src="backdrops.js?v=release-1"></script>
+  <script src="controls.js?v=release-3"></script>
+  <script src="effects.js?v=release-1"></script>
+  <script src="overlays.js?v=release-2"></script>
+  <script src="profile-screen.js?v=release-2"></script>
+  <script src="input.js?v=release-1"></script>
+  <script src="lobby.js?v=release-1"></script>
+  <script src="game.js?v=release-2"></script>
+</body>
+</html>

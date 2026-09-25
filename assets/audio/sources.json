@@ -1,0 +1,90 @@
+{
+  "usage": "Analysis-only references: scripts/generate-astra-audio.js measures these arcade recordings' pitch contours. They are not loaded by the game or included in release builds.",
+  "revision": "9285fd5f3e67327dbbb61f2478c5be090af9ff40",
+  "sources": [
+    {
+      "name": "start-music",
+      "url": "https://raw.githubusercontent.com/masonicGIT/pacman/9285fd5f3e67327dbbb61f2478c5be090af9ff40/sounds/start-music.mp3",
+      "sha256": "c2d032568f6764dd4aa102d04788f860faf9cac14ab03244078681ffd034c9c9",
+      "bytes": 80252
+    },
+    {
+      "name": "eating",
+      "url": "https://raw.githubusercontent.com/masonicGIT/pacman/9285fd5f3e67327dbbb61f2478c5be090af9ff40/sounds/eating.mp3",
+      "sha256": "c980e102bf959b201fcc7c168b83e180ee812ae30150ed27e3e2550fcdc20bdb",
+      "bytes": 193830
+    },
+    {
+      "name": "ghost-turn-to-blue",
+      "url": "https://raw.githubusercontent.com/masonicGIT/pacman/9285fd5f3e67327dbbb61f2478c5be090af9ff40/sounds/ghost-turn-to-blue.mp3",
+      "sha256": "cd8a8d7a6a99082937bae545b9bf2adee2cd2f8d85cf41fe70310174d56cb9f2",
+      "bytes": 206818
+    },
+    {
+      "name": "ghost-return-to-home",
+      "url": "https://raw.githubusercontent.com/masonicGIT/pacman/9285fd5f3e67327dbbb61f2478c5be090af9ff40/sounds/ghost-return-to-home.mp3",
+      "sha256": "fdcf2cc4b070d0bda16af4791494a0bcd291c822a2234de34f79010a85c61590",
+      "bytes": 196747
+    },
+    {
+      "name": "ghost-normal-move",
+      "url": "https://raw.githubusercontent.com/masonicGIT/pacman/9285fd5f3e67327dbbb61f2478c5be090af9ff40/sounds/ghost-normal-move.mp3",
+      "sha256": "958f24d9ce55b590904f2a7f4ec00f80bcafd668d17f261a5c44390cfc721b1a",
+      "bytes": 181366
+    },
+    {
+      "name": "ghost-spurt-move-1",
+      "url": "https://raw.githubusercontent.com/masonicGIT/pacman/9285fd5f3e67327dbbb61f2478c5be090af9ff40/sounds/ghost-spurt-move-1.mp3",
+      "sha256": "48a81a818f5e89a5e16848330f6bd2c37ca498bfe69f2e922e2d7d866dfc69cc",
+      "bytes": 182573
+    },
+    {
+      "name": "ghost-spurt-move-2",
+      "url": "https://raw.githubusercontent.com/masonicGIT/pacman/9285fd5f3e67327dbbb61f2478c5be090af9ff40/sounds/ghost-spurt-move-2.mp3",
+      "sha256": "c3e8aba8ad04c951e14374d0ec9e253f6b1dcd16e7052b4312b9cecbf30c553e",
+      "bytes": 180949
+    },
+    {
+      "name": "ghost-spurt-move-3",
+      "url": "https://raw.githubusercontent.com/masonicGIT/pacman/9285fd5f3e67327dbbb61f2478c5be090af9ff40/sounds/ghost-spurt-move-3.mp3",
+      "sha256": "9478270697ff76ebe9d6a11f310f96f47e49780e04fd3da347efea25222c2880",
+      "bytes": 184203
+    },
+    {
+      "name": "ghost-spurt-move-4",
+      "url": "https://raw.githubusercontent.com/masonicGIT/pacman/9285fd5f3e67327dbbb61f2478c5be090af9ff40/sounds/ghost-spurt-move-4.mp3",
+      "sha256": "2d42abc0b6b9c94c6b2f3a0fed3471f84a8cb944f614169062b844ae971385cc",
+      "bytes": 185457
+    },
+    {
+      "name": "coffee-break-music",
+      "url": "https://raw.githubusercontent.com/masonicGIT/pacman/9285fd5f3e67327dbbb61f2478c5be090af9ff40/sounds/coffee-break-music.mp3",
+      "sha256": "ea777d6fbc149cb2cdc80a6214bf836c59386e5926f8f49d3600bb2cc90625ee",
+      "bytes": 189314
+    },
+    {
+      "name": "miss",
+      "url": "https://raw.githubusercontent.com/masonicGIT/pacman/9285fd5f3e67327dbbb61f2478c5be090af9ff40/sounds/miss.mp3",
+      "sha256": "eef81cd2c5f6c5b34f7eb3bc57dd5ba19a2f7c5578c2a52d972a6d29e27ef663",
+      "bytes": 31493
+    },
+    {
+      "name": "eating-fruit",
+      "url": "https://raw.githubusercontent.com/masonicGIT/pacman/9285fd5f3e67327dbbb61f2478c5be090af9ff40/sounds/eating-fruit.mp3",
+      "sha256": "b0386874abd77546bf7dab8c300183271f5bbda1cf5c6f845dabbc066933702b",
+      "bytes": 8897
+    },
+    {
+      "name": "eating-ghost",
+      "url": "https://raw.githubusercontent.com/masonicGIT/pacman/9285fd5f3e67327dbbb61f2478c5be090af9ff40/sounds/eating-ghost.mp3",
+      "sha256": "3b602778ef3b7c98ace6c1df179c05e8a89d06ca3bcf4992eab70686f17e37a6",
+      "bytes": 13175
+    },
+    {
+      "name": "extend",
+      "url": "https://raw.githubusercontent.com/masonicGIT/pacman/9285fd5f3e67327dbbb61f2478c5be090af9ff40/sounds/extend.mp3",
+      "sha256": "956348203c1c806477b53f806e76dab1b97234fb4bfe2307aa739241ad1e4a29",
+      "bytes": 34708
+    }
+  ]
+}

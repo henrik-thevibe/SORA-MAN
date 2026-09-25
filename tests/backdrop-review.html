@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Astra-Man — backdrop review</title>
+  <style>
+    body { margin: 0; padding: 20px; background: #06070e; color: #dfe4f5; font: 13px ui-monospace, "Cascadia Mono", monospace; }
+    h1 { font-size: 16px; margin: 0 0 12px; }
+    .bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; align-items: center; position: sticky; top: 0; background: #06070e; padding: 8px 0; z-index: 2; }
+    button { background: #171820; color: #dfe4f5; border: 1px solid #707586; padding: 6px 10px; font: inherit; cursor: pointer; }
+    button[aria-pressed="true"] { background: #35bfe9; color: #000; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(640px, 1fr)); gap: 18px; }
+    figure { margin: 0; }
+    figcaption { margin: 6px 0 0; color: #91a4d3; }
+    .stage { position: relative; width: 640px; height: 360px; overflow: hidden; }
+    .stage canvas { position: absolute; left: 0; top: 0; image-rendering: pixelated; }
+    /* A stand-in for the game screen and control plates, so composition can be judged. */
+    .fake { position: absolute; background: #000; }
+    .fake.control { background: #0b0e1a; border-radius: 50%; opacity: .85; }
+  </style>
+</head>
+<body>
+  <h1>Backdrops: 4 styles × 5 characters</h1>
+  <div class="bar">
+    <button id="motion" aria-pressed="true">Animate</button>
+    <button id="fright" aria-pressed="false">Power pellet (frightened)</button>
+    <button id="warning" aria-pressed="false">Fright ending (warning)</button>
+    <button id="paused" aria-pressed="false">Paused</button>
+    <button id="over" aria-pressed="false">Game over</button>
+    <button id="level">Level clear flourish</button>
+    <span id="note"></span>
+  </div>
+  <div class="grid" id="grid"></div>
+  <script src="../engine.js"></script>
+  <script src="../character-art.js?v=astra-5"></script>
+  <script src="../art.js?v=astra-1"></script>
+  <script src="../vendor/p5.min.js"></script>
+  <script src="../backdrops.js?v=6"></script>
+  <script>
+    "use strict";
+    const B = window.ArcadeBackdrops, grid = document.getElementById("grid");
+    const state = { state: "PLAYING", frightened: false, warning: false, level: 1 };
+    // Screen centred with a 20px bezel ring, controls to its sides: the same keep-out the game reports.
+    const screen = { left: 240, top: 30, right: 400, bottom: 330 };
+    const frame = { left: 220, top: 10, right: 420, bottom: 350 };
+    const plates = [{ left: 150, top: 150, right: 204, bottom: 204 }, { left: 440, top: 14, right: 490, bottom: 60 }, { left: 440, top: 290, right: 490, bottom: 340 }];
+    const instances = [];
+    for (const concept of B.CONCEPTS) for (const theme of B.THEMES) {
+      const figure = document.createElement("figure"), stage = document.createElement("div");
+      stage.className = "stage";
+      for (const r of [screen, ...plates]) {
+        const fake = document.createElement("div"); fake.className = r === screen ? "fake" : "fake control";
+        Object.assign(fake.style, { left: r.left + "px", top: r.top + "px", width: r.right - r.left + "px", height: r.bottom - r.top + "px", zIndex: 1 });
+        stage.append(fake);
+      }
+      const caption = document.createElement("figcaption"); caption.textContent = B.names.concepts[concept] + " · " + B.names.themes[theme];
+      figure.append(stage, caption); grid.append(figure);
+      instances.push(B.create(stage, { width: 640, height: 360, concept, theme, keepOut: () => [frame, ...plates], screen: () => screen, read: () => state, forceMotion: true, time: 3 }));
+    }
+    const toggle = (id, apply) => document.getElementById(id).addEventListener("click", event => {
+      const on = event.currentTarget.getAttribute("aria-pressed") !== "true";
+      event.currentTarget.setAttribute("aria-pressed", String(on)); apply(on);
+    });
+    toggle("fright", on => { state.frightened = on; if (!on) state.warning = false; });
+    toggle("warning", on => { state.warning = on; if (on) state.frightened = true; });
+    toggle("paused", on => { state.state = on ? "PAUSED" : "PLAYING"; });
+    toggle("over", on => { state.state = on ? "GAME_OVER" : "PLAYING"; });
+    toggle("motion", on => instances.forEach(i => i.setMotion(on)));
+    document.getElementById("level").addEventListener("click", () => { state.level++; });
+    document.getElementById("note").textContent = matchMedia("(prefers-reduced-motion: reduce)").matches ? "Reduced motion is on here; the review animates anyway." : "";
+  </script>
+</body>
+</html>

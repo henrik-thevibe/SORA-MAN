@@ -1,0 +1,114 @@
+SORA-MAN · AI Arcade
+Copyright (c) 2026 the SORA-MAN contributors
+
+This repository contains material under more than one licence. Part 1 says
+which licence applies to which files. Parts 2 and 3 are the licences. Part 4
+lists third-party components, which keep their own licences. Part 5 is the
+trademark and fan-tribute notice.
+
+===============================================================================
+1. SCOPE
+===============================================================================
+
+(a) SOFTWARE: MIT License (Part 2)
+    All source code, including the JavaScript, HTML, CSS and Python files, the
+    tests, the scripts in scripts/, the tools in tools/, the trailer pipeline
+    source in trailer/ and the agent skills in .claude/skills/, except the
+    items in (b) and Part 4.
+
+(b) ART, AUDIO AND MEDIA: Creative Commons Attribution-NonCommercial 4.0
+    International (Part 3)
+    - The character, pickup and cabinet designs: the visual appearance of
+      the sprites that character-art.js, item-art.js, art.js, controls.js,
+      backdrops.js and trailer/src/hero-art.js produce. The code that draws
+      them is under (a). The designs it draws are under (b).
+    - All generated audio: assets/audio/*.wav, assets/audio/manifest.json and
+      the embedded sound data in sound-bank.js.
+    - Everything in docs/media/ (screenshots, sprite renders, animations).
+    - The written storyboard in trailer/STORYBOARD.md.
+
+    Attribution: "SORA-MAN · AI Arcade by the SORA-MAN contributors", with a
+    link to this repository.
+
+(c) THIRD-PARTY COMPONENTS: their own licences (Part 4).
+
+If you are unsure which part covers a file, treat code as (a) and anything you
+see or hear as (b).
+
+===============================================================================
+2. MIT LICENSE
+===============================================================================
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+===============================================================================
+3. CREATIVE COMMONS ATTRIBUTION-NONCOMMERCIAL 4.0 INTERNATIONAL
+===============================================================================
+
+The material listed in 1(b) is licensed under CC BY-NC 4.0. The full legal
+code is in LICENSES/CC-BY-NC-4.0.txt and at
+https://creativecommons.org/licenses/by-nc/4.0/legalcode
+
+In short (this summary is not a substitute for the legal code): you may share
+and adapt the material with appropriate credit, but not for commercial
+purposes.
+
+===============================================================================
+4. THIRD-PARTY COMPONENTS
+===============================================================================
+
+- p5.js 2.x (vendor/p5.min.js)
+  (c) the Processing Foundation and contributors.
+  GNU Lesser General Public License v2.1 (LICENSES/LGPL-2.1.txt).
+  Source: https://github.com/processing/p5.js
+
+- Crackman Front font (assets/fonts/)
+  By Raymond Larabie. CC0 1.0 (public domain dedication).
+  See assets/fonts/license.txt.
+
+- p5.brush and Playwright (trailer/package.json)
+  Development dependencies of the trailer pipeline. They are installed by npm
+  and not included in this repository. MIT and Apache-2.0 respectively.
+
+- jfxr (https://github.com/ttencate/jfxr)
+  By Thomas ten Cate. BSD 3-Clause. Not included; scripts/generate-jfxr-demo.js
+  loads it from a local checkout (see scripts/AUDIO.md).
+
+- masonicGIT/pacman (https://github.com/masonicGIT/pacman)
+  Shaun Williams' remake, GPL-3.0. This project used it as a reference only.
+  mazegen.js reimplements the idea of its piece-based maze generator from
+  scratch for an endless climb and contains no code from it.
+
+- Rules research: the arcade game's behaviour as documented by the community
+  in "The Pac-Man Dossier". No ROM, graphics or recordings from the arcade
+  game are included in this repository or in the game.
+
+===============================================================================
+5. TRADEMARKS AND FAN-TRIBUTE NOTICE
+===============================================================================
+
+SORA-MAN is an unofficial, non-commercial fan tribute and parody. It is not
+affiliated with, endorsed by or sponsored by OpenAI, Anthropic, Google, xAI,
+Meta, NVIDIA, GitHub, Hugging Face, Bandai Namco or any other company named or
+referenced in it.
+
+Sora, Claude, Gemini, Grok, Muse, NVIDIA, GitHub, Hugging Face, Pac-Man and
+all related names, logos and marks belong to their respective owners. The
+characters and bonus items are affectionate pixel-art homages. Neither licence
+above grants any right to use third-party trademarks.

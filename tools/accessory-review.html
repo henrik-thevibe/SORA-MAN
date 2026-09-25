@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Accessory review</title>
+<style>
+  body { margin: 0; background: #090d19; color: #cdd3e4; font: 12px monospace; }
+  canvas { display: block; image-rendering: pixelated; }
+</style>
+</head>
+<body>
+<!-- Dev-only sheet: every accessory on every direction and mouth frame, at 3x and at in-game size. -->
+<canvas id="sheet"></canvas>
+<script src="../character-art.js"></script>
+<script>
+  const A = window.AstraCharacters, canvas = document.getElementById("sheet"), ctx = canvas.getContext("2d");
+  const skins = ["astra", "nova", "vega", "lyra"], pieces = Object.keys(A.ACCESSORIES);
+  const params = new URLSearchParams(location.search), scale = Number(params.get("scale")) || 3;
+  const cell = 32 * scale + 6, cols = 4 * 2 + 1, rows = pieces.length;
+  canvas.width = 90 + cols * cell; canvas.height = 30 + rows * (cell + 4);
+  ctx.fillStyle = "#090d19"; ctx.fillRect(0, 0, canvas.width, canvas.height);
+  function draw(pixels, x, y, s) {
+    pixels.forEach((c, i) => { if (c) { ctx.fillStyle = c; ctx.fillRect(x + (i % 32) * s, y + Math.floor(i / 32) * s, s, s); } });
+  }
+  ["UP", "LEFT", "DOWN", "RIGHT"].forEach((h, d) => { ctx.fillStyle = "#8794bb"; ctx.fillText(h + " shut/open", 90 + d * 2 * cell, 16); });
+  pieces.forEach((piece, row) => {
+    const y = 26 + row * (cell + 4), skin = skins[row % 4];
+    ctx.fillStyle = "#ffe52c"; ctx.fillText(piece.toUpperCase(), 6, y + 20);
+    for (let d = 0; d < 4; d++) for (const [k, frame] of [0, 3].entries())
+      draw(A.raster("pacman", { skin, direction: d, frame, accessory: piece }), 90 + (d * 2 + k) * cell, y, scale);
+    // In-game size (16 logical px at 2x = 32 device px, drawn 1:1 here).
+    for (let d = 0; d < 4; d++) draw(A.raster("pacman", { skin, direction: d, frame: 2, accessory: piece }), 90 + 8 * cell + (d % 2) * 36, y + Math.floor(d / 2) * 36, 1);
+  });
+</script>
+</body>
+</html>

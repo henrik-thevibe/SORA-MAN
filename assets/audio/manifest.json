@@ -1,0 +1,441 @@
+{
+  "generators": [
+    "scripts/generate-astra-audio.js",
+    "scripts/generate-astra-ui-audio.js"
+  ],
+  "timings": {
+    "introDuration": 4.183333333333334,
+    "intermissionDuration": 10.45
+  },
+  "clips": {
+    "intro": {
+      "source": "generated:scripts/generate-astra-audio.js",
+      "frames": 184338,
+      "sampleRate": 44100,
+      "duration": 4.18,
+      "loopStart": null,
+      "loopEnd": null,
+      "peak": 0.946075439453125,
+      "rms": 0.1878814234389068,
+      "sha256": "1766ef3b8858dc61c45f643ecf27e629bb142690b8adec5c71ab79aeb6e7c827"
+    },
+    "intermission": {
+      "source": "generated:scripts/generate-astra-audio.js",
+      "frames": 460404,
+      "sampleRate": 44100,
+      "duration": 10.44,
+      "loopStart": null,
+      "loopEnd": null,
+      "peak": 0.952850341796875,
+      "rms": 0.24197873577905163,
+      "sha256": "1854f6e948b7cb78547c649a85db83681be5db8bdd974a5d6c83850ea5c53ce2"
+    },
+    "death": {
+      "source": "generated:scripts/generate-astra-audio.js",
+      "frames": 67980,
+      "sampleRate": 44100,
+      "duration": 1.5414965986394558,
+      "loopStart": null,
+      "loopEnd": null,
+      "peak": 0.44305419921875,
+      "rms": 0.18199445235339934,
+      "sha256": "97b79eaf5483643066ed75bc44eb4b53e1b39c75f0ee35ed215787e5dd0bcea8"
+    },
+    "fruit": {
+      "source": "generated:scripts/generate-astra-audio.js",
+      "frames": 23792,
+      "sampleRate": 44100,
+      "duration": 0.539501133786848,
+      "loopStart": null,
+      "loopEnd": null,
+      "peak": 0.28704833984375,
+      "rms": 0.09199713429198403,
+      "sha256": "01717a520e2f2098d4353698a4d9133b73e39cbaf7e6313141fc336112177b66"
+    },
+    "ghost": {
+      "source": "generated:scripts/generate-astra-audio.js",
+      "frames": 25071,
+      "sampleRate": 44100,
+      "duration": 0.5685034013605442,
+      "loopStart": null,
+      "loopEnd": null,
+      "peak": 0.18511962890625,
+      "rms": 0.08499745392222095,
+      "sha256": "4316cd1c934cb3f14066560a738ff641d2bc905ad64ede8a4a2b6109a1e532de"
+    },
+    "extraLife": {
+      "source": "generated:scripts/generate-astra-audio.js",
+      "frames": 83790,
+      "sampleRate": 44100,
+      "duration": 1.9,
+      "loopStart": null,
+      "loopEnd": null,
+      "peak": 0.311859130859375,
+      "rms": 0.09299717225121629,
+      "sha256": "01dc455fa2bbe9e9415622da01ab28a4c0ece0c528af021e6aee92ab7fb2d5d2"
+    },
+    "munchA": {
+      "source": "generated:scripts/generate-astra-audio.js",
+      "frames": 4410,
+      "sampleRate": 44100,
+      "duration": 0.1,
+      "loopStart": null,
+      "loopEnd": null,
+      "peak": 0.460052490234375,
+      "rms": 0.1859940926362526,
+      "sha256": "4b136e3c55f28a77633f51b3e92a2a0dd76aa159fc81b85f485764b5ca26af8a"
+    },
+    "munchB": {
+      "source": "generated:scripts/generate-astra-audio.js",
+      "frames": 4410,
+      "sampleRate": 44100,
+      "duration": 0.1,
+      "loopStart": null,
+      "loopEnd": null,
+      "peak": 0.48382568359375,
+      "rms": 0.1859943401132938,
+      "sha256": "a96a161a182dfd7c2a9009f78b20dd2483c1d8cfea1206d3ddf9cb3c1e369677"
+    },
+    "powerUp": {
+      "source": "generated:scripts/generate-astra-audio.js",
+      "frames": 19139,
+      "sampleRate": 44100,
+      "duration": 0.4339909297052154,
+      "loopStart": null,
+      "loopEnd": null,
+      "peak": 0.27691650390625,
+      "rms": 0.09499708659222787,
+      "sha256": "c38d1dc1a138ecf8b47f8843408fc4223113c39be40a14adadd366e2d66f0857"
+    },
+    "zap": {
+      "source": "generated:scripts/generate-astra-audio.js",
+      "frames": 14994,
+      "sampleRate": 44100,
+      "duration": 0.34,
+      "loopStart": null,
+      "loopEnd": null,
+      "peak": 0.399810791015625,
+      "rms": 0.09999698158153507,
+      "sha256": "3f47867783f080888838a02cf2516ab4f42094b1b85f1b5f30617cd595edf62f"
+    },
+    "siren0": {
+      "source": "generated:scripts/generate-astra-audio.js",
+      "frames": 69854,
+      "sampleRate": 44100,
+      "duration": 1.5839909297052155,
+      "loopStart": 0,
+      "loopEnd": 1.5839909297052155,
+      "peak": 0.33306884765625,
+      "rms": 0.17299481564150698,
+      "sha256": "4086a5f928a76bfc0cff7368b24786c7563523bf2cc35289cf88956b788674c0"
+    },
+    "siren1": {
+      "source": "generated:scripts/generate-astra-audio.js",
+      "frames": 64033,
+      "sampleRate": 44100,
+      "duration": 1.4519954648526077,
+      "loopStart": 0,
+      "loopEnd": 1.4519954648526077,
+      "peak": 0.32427978515625,
+      "rms": 0.1639949666189763,
+      "sha256": "5793ee5d636bcce3bf19986d3f605a02845b88ca97ecac2713938c9b751eb6df"
+    },
+    "siren2": {
+      "source": "generated:scripts/generate-astra-audio.js",
+      "frames": 58212,
+      "sampleRate": 44100,
+      "duration": 1.32,
+      "loopStart": 0,
+      "loopEnd": 1.32,
+      "peak": 0.329315185546875,
+      "rms": 0.15899517349474768,
+      "sha256": "c08e11b48df71738759793f4e9dbdd0b36b420c4a9b85c03ba9a41d86dc04bb6"
+    },
+    "siren3": {
+      "source": "generated:scripts/generate-astra-audio.js",
+      "frames": 52391,
+      "sampleRate": 44100,
+      "duration": 1.1880045351473922,
+      "loopStart": 0,
+      "loopEnd": 1.1880045351473922,
+      "peak": 0.35211181640625,
+      "rms": 0.156995299157931,
+      "sha256": "f1a9e7c67e65c6a1f462623ee189cf30058c3cbd0a5177569173789ca8162200"
+    },
+    "siren4": {
+      "source": "generated:scripts/generate-astra-audio.js",
+      "frames": 46570,
+      "sampleRate": 44100,
+      "duration": 1.0560090702947846,
+      "loopStart": 0,
+      "loopEnd": 1.0560090702947846,
+      "peak": 0.364959716796875,
+      "rms": 0.15699525938763045,
+      "sha256": "b30ed585a3a2c5e71904abdad597fbef7bd93786a6a39d0049e5c6223b6d4899"
+    },
+    "frightened": {
+      "source": "generated:scripts/generate-astra-audio.js",
+      "frames": 23285,
+      "sampleRate": 44100,
+      "duration": 0.5280045351473923,
+      "loopStart": 0,
+      "loopEnd": 0.5280045351473923,
+      "peak": 0.1944580078125,
+      "rms": 0.12499620499596417,
+      "sha256": "62157083ff4c843d9076ef267b170a9a7f71bc280431abdc060edaeeee614766"
+    },
+    "returning": {
+      "source": "generated:scripts/generate-astra-audio.js",
+      "frames": 46570,
+      "sampleRate": 44100,
+      "duration": 1.0560090702947846,
+      "loopStart": 0,
+      "loopEnd": 1.0560090702947846,
+      "peak": 0.4468994140625,
+      "rms": 0.16999476802189245,
+      "sha256": "fa6d9e3dcfcc0fea85cb39869f71c07f1f63bd3eb1b4defbbcdeb32ab3625af9"
+    },
+    "bootIntro": {
+      "source": "generated:scripts/generate-astra-ui-audio.js",
+      "frames": 275625,
+      "sampleRate": 44100,
+      "duration": 6.25,
+      "loopStart": null,
+      "loopEnd": null,
+      "peak": 0.6199951171875,
+      "rms": 0.12236693962010006,
+      "sha256": "3fe0f82e228419f579a9bc80214c7f3009f815d19f540224fc27c4aaeb8631e8"
+    },
+    "titleSting": {
+      "source": "generated:scripts/generate-astra-ui-audio.js",
+      "frames": 55125,
+      "sampleRate": 44100,
+      "duration": 1.25,
+      "loopStart": null,
+      "loopEnd": null,
+      "peak": 0.54998779296875,
+      "rms": 0.09586337416261267,
+      "sha256": "8cce9065ac56ddce78f56da877f9ee96ff1a29675552b1cf190ccae023894012"
+    },
+    "uiMove": {
+      "source": "generated:scripts/generate-astra-ui-audio.js",
+      "frames": 1985,
+      "sampleRate": 44100,
+      "duration": 0.04501133786848072,
+      "loopStart": null,
+      "loopEnd": null,
+      "peak": 0.239990234375,
+      "rms": 0.06576769877900038,
+      "sha256": "f2d1d6842300dabbf70684e5e09f314b4a33a2dfa817e8392dfe90ebbebe494a"
+    },
+    "uiChange": {
+      "source": "generated:scripts/generate-astra-ui-audio.js",
+      "frames": 1455,
+      "sampleRate": 44100,
+      "duration": 0.03299319727891156,
+      "loopStart": null,
+      "loopEnd": null,
+      "peak": 0.259979248046875,
+      "rms": 0.10784496188019889,
+      "sha256": "586a8d2e228bda2e0008632b5816d321c8b92db427481b99dacd8b914ae559db"
+    },
+    "uiConfirm": {
+      "source": "generated:scripts/generate-astra-ui-audio.js",
+      "frames": 11025,
+      "sampleRate": 44100,
+      "duration": 0.25,
+      "loopStart": null,
+      "loopEnd": null,
+      "peak": 0.319976806640625,
+      "rms": 0.09187489653956618,
+      "sha256": "0255601e12c46e3a19155695682c161de5aa582aeb771a32e716083d193b7a98"
+    },
+    "uiBack": {
+      "source": "generated:scripts/generate-astra-ui-audio.js",
+      "frames": 11025,
+      "sampleRate": 44100,
+      "duration": 0.25,
+      "loopStart": null,
+      "loopEnd": null,
+      "peak": 0.259979248046875,
+      "rms": 0.07164467063607569,
+      "sha256": "592748ca041cca2272daff4a805be07b042ea554246c93d4771fc08814738bd2"
+    },
+    "uiClick": {
+      "source": "generated:scripts/generate-astra-ui-audio.js",
+      "frames": 1764,
+      "sampleRate": 44100,
+      "duration": 0.04,
+      "loopStart": null,
+      "loopEnd": null,
+      "peak": 0.279998779296875,
+      "rms": 0.05924830121894339,
+      "sha256": "f15b68aeddc98ca8eb4e8945a6cf8330370347f67c25e169c5fa02f066dcfd46"
+    },
+    "soundOn": {
+      "source": "generated:scripts/generate-astra-ui-audio.js",
+      "frames": 6615,
+      "sampleRate": 44100,
+      "duration": 0.15,
+      "loopStart": null,
+      "loopEnd": null,
+      "peak": 0.29998779296875,
+      "rms": 0.1012486239401537,
+      "sha256": "6af846f34e05184b1a1f21e1b857d37f40ec246e5612dbb0f6b94812491b2603"
+    },
+    "soundOff": {
+      "source": "generated:scripts/generate-astra-ui-audio.js",
+      "frames": 6615,
+      "sampleRate": 44100,
+      "duration": 0.15,
+      "loopStart": null,
+      "loopEnd": null,
+      "peak": 0.279998779296875,
+      "rms": 0.08201656670277524,
+      "sha256": "eda953af21a584ceff4b5a55b8667b3f830682a01b38c4f9eea92e3a8ab34388"
+    },
+    "uiBuy": {
+      "source": "generated:scripts/generate-astra-ui-audio.js",
+      "frames": 22491,
+      "sampleRate": 44100,
+      "duration": 0.51,
+      "loopStart": null,
+      "loopEnd": null,
+      "peak": 0.379974365234375,
+      "rms": 0.07619633054278806,
+      "sha256": "7b6f981c7ec9b2ebfd530c0c15da72863f7f2fd93227fc76cdf8868de0751809"
+    },
+    "uiEquip": {
+      "source": "generated:scripts/generate-astra-ui-audio.js",
+      "frames": 5733,
+      "sampleRate": 44100,
+      "duration": 0.13,
+      "loopStart": null,
+      "loopEnd": null,
+      "peak": 0.319976806640625,
+      "rms": 0.05990876528678636,
+      "sha256": "c5962061bc4135d617b5c8653ef87e6785aa377912c8f8ffff6e0d85d61ff5b9"
+    },
+    "uiLoadoutAdd": {
+      "source": "generated:scripts/generate-astra-ui-audio.js",
+      "frames": 8379,
+      "sampleRate": 44100,
+      "duration": 0.19,
+      "loopStart": null,
+      "loopEnd": null,
+      "peak": 0.25,
+      "rms": 0.1107631768678541,
+      "sha256": "2e2a182b5429e80c2a9094b4583071c02e4f05015bab642eecb4b1c12107645a"
+    },
+    "uiLoadoutRemove": {
+      "source": "generated:scripts/generate-astra-ui-audio.js",
+      "frames": 8379,
+      "sampleRate": 44100,
+      "duration": 0.19,
+      "loopStart": null,
+      "loopEnd": null,
+      "peak": 0.22998046875,
+      "rms": 0.1035035923081277,
+      "sha256": "63ecbd3a09ac9691012045602cfb170b9d2de652010d235e567e048f785e3933"
+    },
+    "uiDenied": {
+      "source": "generated:scripts/generate-astra-ui-audio.js",
+      "frames": 6395,
+      "sampleRate": 44100,
+      "duration": 0.14501133786848072,
+      "loopStart": null,
+      "loopEnd": null,
+      "peak": 0.239990234375,
+      "rms": 0.1779855161863446,
+      "sha256": "9c1a920ee1f86714ec9bc0121d36c172a9803f0c86635aaf64884dd2f1a09895"
+    },
+    "tally": {
+      "source": "generated:scripts/generate-astra-ui-audio.js",
+      "frames": 59270,
+      "sampleRate": 44100,
+      "duration": 1.3439909297052155,
+      "loopStart": null,
+      "loopEnd": null,
+      "peak": 0.3599853515625,
+      "rms": 0.07361907301829967,
+      "sha256": "17a501547a0a7dd37358383491130e045656901a34781367ff4ba728bcb5b7c1"
+    },
+    "levelUp": {
+      "source": "generated:scripts/generate-astra-ui-audio.js",
+      "frames": 40572,
+      "sampleRate": 44100,
+      "duration": 0.92,
+      "loopStart": null,
+      "loopEnd": null,
+      "peak": 0.5,
+      "rms": 0.10962014575476292,
+      "sha256": "b5af37b6ed27bbf01695c0367265a003ebe27beee5e80eb63df1a02792ee0276"
+    },
+    "achievement": {
+      "source": "generated:scripts/generate-astra-ui-audio.js",
+      "frames": 37485,
+      "sampleRate": 44100,
+      "duration": 0.85,
+      "loopStart": null,
+      "loopEnd": null,
+      "peak": 0.41998291015625,
+      "rms": 0.09523930684270931,
+      "sha256": "ee23bebf3c475cd5ffb9ba92176b0a708980a0738d244e0ebc1f81b0fad7a608"
+    },
+    "gameOver": {
+      "source": "generated:scripts/generate-astra-ui-audio.js",
+      "frames": 92610,
+      "sampleRate": 44100,
+      "duration": 2.1,
+      "loopStart": null,
+      "loopEnd": null,
+      "peak": 0.54998779296875,
+      "rms": 0.12364111534046314,
+      "sha256": "c2e68a852f98173bac49814f14adb0bcd7ff393711f305bf81f0045e48d10ecf"
+    },
+    "alarm": {
+      "source": "generated:scripts/generate-astra-ui-audio.js",
+      "frames": 23373,
+      "sampleRate": 44100,
+      "duration": 0.53,
+      "loopStart": null,
+      "loopEnd": null,
+      "peak": 0.239990234375,
+      "rms": 0.16491330943395113,
+      "sha256": "506907b411670ad85f7cf95619130bc707892d2c4fecbc835fe688679d98f74e"
+    },
+    "victory": {
+      "source": "generated:scripts/generate-astra-ui-audio.js",
+      "frames": 65268,
+      "sampleRate": 44100,
+      "duration": 1.48,
+      "loopStart": null,
+      "loopEnd": null,
+      "peak": 0.519989013671875,
+      "rms": 0.1034457361744767,
+      "sha256": "a563a31ecf1c4e0ce53445c158888addc267af5f850b079575b8dd81992f983b"
+    },
+    "readyUp": {
+      "source": "generated:scripts/generate-astra-ui-audio.js",
+      "frames": 5733,
+      "sampleRate": 44100,
+      "duration": 0.13,
+      "loopStart": null,
+      "loopEnd": null,
+      "peak": 0.29998779296875,
+      "rms": 0.10447086124942587,
+      "sha256": "f2a98d862c7d2f5b806534080cbdbd72c58857929c92bcd99a027323af233b86"
+    },
+    "menuLoop": {
+      "source": "generated:scripts/generate-astra-ui-audio.js",
+      "frames": 529200,
+      "sampleRate": 44100,
+      "duration": 12.0,
+      "loopStart": 0,
+      "loopEnd": 12.0,
+      "peak": 0.219482421875,
+      "rms": 0.059998177409326635,
+      "sha256": "0a8d19535ebbba190523c0b58a23e2be005c4bb5217f3fe89621a6830cc43974"
+    }
+  }
+}

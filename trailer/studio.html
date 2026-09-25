@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SORA-MAN Trailer Studio</title>
+<link rel="stylesheet" href="../assets/fonts/crackman.css">
+<style>
+  html, body { margin: 0; background: #05050a; color: #ddd; font: 14px system-ui, sans-serif; }
+  #out { display: block; width: min(100vw, calc((100vh - 64px) * 16 / 9)); aspect-ratio: 16 / 9; margin: 0 auto; background: #000; }
+  #bar { display: flex; gap: 12px; align-items: center; padding: 8px 16px; }
+  #scrub { flex: 1; }
+  body.render #bar { display: none; }
+  body.render #out { width: 1920px; }
+</style>
+</head>
+<body>
+<canvas id="out" width="1920" height="1080"></canvas>
+<div id="bar">
+  <button id="play">Play</button>
+  <input id="scrub" type="range" min="0" max="124" step="0.0333" value="0">
+  <span id="clock">0.00</span>
+  <span id="shot"></span>
+</div>
+<script src="../vendor/p5.min.js"></script>
+<script src="node_modules/p5.brush/dist/p5.brush.js"></script>
+<script src="../engine.js"></script>
+<script src="../character-art.js"></script>
+<script src="src/core.js"></script>
+<script src="src/assets.js"></script>
+<script src="src/plates.js"></script>
+<script src="src/hero-art.js"></script>
+<script src="src/cast.js"></script>
+<script src="src/cards.js"></script>
+<script src="src/footage.js"></script>
+<script src="src/fx.js"></script>
+<script src="src/timeline.js"></script>
+<script src="src/transitions.js"></script>
+<script src="src/shots.js"></script>
+<script src="src/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "name": "sora-man-trailer",
+  "private": true,
+  "scripts": {
+    "capture": "node capture/capture.mjs",
+    "audio": "node audio/score.mjs",
+    "render": "node render.mjs",
+    "encode": "node render.mjs --encode"
+  },
+  "dependencies": {
+    "playwright": "^1.49.0",
+    "p5.brush": "^2.0.0"
+  }
+}
